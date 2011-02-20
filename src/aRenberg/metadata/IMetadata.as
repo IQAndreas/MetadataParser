@@ -2,7 +2,8 @@ package aRenberg.metadata
 {
 	public interface IMetadata
 	{
-		//function populate(name:String, args:Object, parent:XML):void;
+		function get targetName():String;
+		function get targetType():String;
 		
 		function get name():String;
 		function get args():Object;

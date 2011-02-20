@@ -9,7 +9,7 @@ package aRenberg.metadata
 	public class MetadataParser
 	{
 		public function MetadataParser(strict:Boolean = false)
-		{
+		{trace("NEW3");
 			types = {};
 			
 			if (strict)

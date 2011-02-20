@@ -2,17 +2,23 @@ package aRenberg.metadata
 {
 	public class Metadata implements IMetadata
 	{
-		public function Metadata(name:String, args:Object, parent:XML):void
+		public function Metadata(name:String, args:Object, targetName:String, targetType:String):void
 		{
-			//_target = target;
+			_targetName = targetName;
+			_targetType = targetType;
+			
 			_name = name;
 			_args = args;
-			_parent = parent;
 		}
 		
-		//private var _target:*;
-		//public function get target():*
-		//{ return _target; }
+		private var _targetName:String;
+		public function get targetName():String
+		{ return _targetName; }
+		
+		private var _targetType:String;
+		public function get targetType():String
+		{ return _targetType; }
+		
 		
 		private var _name:String;
 		public function get name():String
@@ -21,10 +27,6 @@ package aRenberg.metadata
 		private var _args:Object;
 		public function get args():Object
 		{ return _args; }
-		
-		private var _parent:XML;
-		public function get parent():XML
-		{ return _parent; }
 		
 		
 		public function toString():String
@@ -38,6 +40,9 @@ package aRenberg.metadata
 			}
 			
 			var output:String = this.name;
+			
+			if (this.targetName)
+				{ output += " (" + this.targetType + " " + this.targetName + ")"; }
 			
 			if (values.length)
 				{ output += " - " + "{" + values.join(", ") + "}"; }
