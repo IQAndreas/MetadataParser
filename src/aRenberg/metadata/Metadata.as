@@ -24,8 +24,20 @@ package aRenberg.metadata
 		
 		public function toString():String
 		{
-			//TODO
-			return super.toString();
+			//Is this really the best way to output the argument values?
+			
+			var values:Vector.<String> = new Vector.<String>();
+			for (var key:String in args)
+			{
+				values.push(key + "=" + "\"" + args[key] + "\"");
+			}
+			
+			var output:String = this.name;
+			
+			if (values.length)
+				{ output += " - " + "{" + values.join(", ") + "}"; }
+		
+			return output;
 		}
 		
 	}
