@@ -1,18 +1,25 @@
 package aRenberg.metadata
 {
-	import flash.utils.describeType;
-	
-	import aRenberg.metadata.Metadata; 
-	
+	import aRenberg.metadata.Metadata;
 	import aRenberg.metadata.handlers.genericMetadataHandler;
 	import aRenberg.metadata.handlers.ignoreMetadataHandler;
 	
+	import flash.utils.describeType;
+	
 	public class MetadataParser
 	{
-		public function MetadataParser()
+		public function MetadataParser(strict:Boolean = false)
 		{
 			types = {};
-			this.setDefaultHandler(null);
+			
+			if (strict)
+			{
+				this.setDefaultHandler(ignoreMetadataHandler);
+			}
+			else
+			{
+				this.setDefaultHandler(genericMetadataHandler);
+			}
 		}
 		
 		private var defaultHandler:Function;
