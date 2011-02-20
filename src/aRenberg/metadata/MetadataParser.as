@@ -4,6 +4,9 @@ package aRenberg.metadata
 	
 	import aRenberg.metadata.Metadata; 
 	
+	import aRenberg.metadata.handlers.genericMetadataHandler;
+	import aRenberg.metadata.handlers.ignoreMetadataHandler;
+	
 	public class MetadataParser
 	{
 		public function MetadataParser()
@@ -12,7 +15,7 @@ package aRenberg.metadata
 			this.setDefaultHandler(null);
 		}
 		
-		private var _defaultHandler:Function;
+		private var defaultHandler:Function;
 		private var types:Object;
 		public function registerHandler(name:String, handler:Function):void
 		{
@@ -33,25 +36,25 @@ package aRenberg.metadata
 		
 		public function ignoreType(name:String):void
 		{
-			this.registerHandler(name, this.ignoreMetaHandler);
+			this.registerHandler(name, ignoreMetadataHandler);
 		}
 		
 		public function setDefaultHandler(handler:Function):void
 		{
 			if (handler != null)
 			{
-				this._defaultHandler = handler;
+				defaultHandler = handler;
 			}
 			else
 			{
-				//Pass null to default to default handler.
-				this._defaultHandler = defaultMetaHandler;
+				//Pass null to default to generic handler.
+				defaultHandler = genericMetadataHandler;
 			}
 		}
 		
 		public function getHandler(name:String):Function
 		{
-			return (types[name] as Function) || this._defaultHandler;
+			return (types[name] as Function) || defaultHandler;
 		}
 		
 		public function parse(object:*):Vector.<IMetadata>
@@ -68,7 +71,7 @@ package aRenberg.metadata
 				var name:String = meta.attribute('name');
 				var handler:Function = this.getHandler(name);
 				
-				//Parse args
+				//Parse args - I'm sorry this is so ugly...
 				var argsXML:XMLList = meta.arg;
 				var args:Object = {};
 				for each (var arg:XML in argsXML)
@@ -81,19 +84,6 @@ package aRenberg.metadata
 			}
 			
 			return data;
-		}
-		
-		
-		//-- HANDLERS
-		
-		private function defaultMetaHandler(name:String, args:Object, parent:XML):IMetadata
-		{
-			return new Metadata(name, args, parent);
-		}
-		
-		private function ignoreMetaHandler(name:String, args:Object, parent:XML):IMetadata
-		{
-			return null;
 		}
 		
 		
