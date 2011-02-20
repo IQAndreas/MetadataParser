@@ -2,7 +2,7 @@ package aRenberg.metadata.handlers
 {
 	import aRenberg.metadata.IMetadata;
 
-	public function ignoreMetadataHandler(name:String, args:Object, parent:XML):IMetadata
+	public function ignoreMetadataHandler(metadataXML:XML):IMetadata
 	{
 		return null;
 	}

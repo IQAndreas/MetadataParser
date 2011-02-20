@@ -70,16 +70,8 @@ package aRenberg.metadata
 			{
 				var name:String = meta.attribute('name');
 				var handler:Function = this.getHandler(name);
-				
-				//Parse args - I'm sorry this is so ugly...
-				var argsXML:XMLList = meta.arg;
-				var args:Object = {};
-				for each (var arg:XML in argsXML)
-				{
-					args[String(arg.attribute('key'))] = arg.attribute('value');
-				}
 			
-				var instance:IMetadata = handler.call(null, name, args, meta.parent());
+				var instance:IMetadata = handler.call(null, meta);
 				if (instance) { data.push(instance); }
 			}
 			

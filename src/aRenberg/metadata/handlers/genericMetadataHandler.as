@@ -3,8 +3,13 @@ package aRenberg.metadata.handlers
 	import aRenberg.metadata.IMetadata;
 	import aRenberg.metadata.Metadata;
 
-	public function genericMetadataHandler(name:String, args:Object, parent:XML):IMetadata
+	import aRenberg.metadata.parseMetadataArgs;
+	
+	public function genericMetadataHandler(metadataXML:XML):IMetadata
 	{
-		return new Metadata(name, args, parent);
+		var name:String = metadataXML.attribute('name');
+		var args:Object = parseMetadataArgs(metadataXML.arg);
+		
+		return new Metadata(name, args, metadataXML.parent());
 	}
 }

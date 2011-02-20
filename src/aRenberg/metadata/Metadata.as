@@ -4,10 +4,15 @@ package aRenberg.metadata
 	{
 		public function Metadata(name:String, args:Object, parent:XML):void
 		{
+			//_target = target;
 			_name = name;
 			_args = args;
 			_parent = parent;
 		}
+		
+		//private var _target:*;
+		//public function get target():*
+		//{ return _target; }
 		
 		private var _name:String;
 		public function get name():String
