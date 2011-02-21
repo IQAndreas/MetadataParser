@@ -21,6 +21,18 @@ package aRenberg.metadata
 		}
 		
 		
+		public static function parse(metadataXML:XML):Metadata
+		{
+			var name:String = MetadataUtils.getName(metadataXML);
+			var args:Object = MetadataUtils.parseArgs(metadataXML);
+			
+			var targetName:String = MetadataUtils.getTargetName(metadataXML);
+			var targetType:String = MetadataUtils.getTargetType(metadataXML);
+			
+			return new Metadata(name, args, targetName, targetType);
+		}
+		
+		
 		public static function getName(metadataXML:XML):String
 		{
 			return metadataXML.attribute('name');
