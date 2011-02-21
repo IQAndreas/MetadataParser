@@ -9,7 +9,7 @@ package aRenberg.metadata
 	public class MetadataParser
 	{
 		public function MetadataParser(strict:Boolean = false)
-		{trace("NEW3");
+		{
 			types = {};
 			
 			if (strict)
@@ -68,14 +68,12 @@ package aRenberg.metadata
 		{
 			if (!object) { return null; }
 			
-			var description:XML = describeType(object);
-			var metadataList:XMLList = description..metadata;
-			
+			var metadataList:XMLList = MetadataUtils.getMetadatas(object);
 			var data:Vector.<IMetadata> = new Vector.<IMetadata>();
 			
 			for each (var meta:XML in metadataList)
 			{
-				var name:String = meta.attribute('name');
+				var name:String = MetadataUtils.getName(meta);
 				var handler:Function = this.getHandler(name);
 			
 				var instance:IMetadata = handler.call(null, meta);

@@ -3,16 +3,15 @@ package aRenberg.metadata.handlers
 	import aRenberg.metadata.IMetadata;
 	import aRenberg.metadata.Metadata;
 	import aRenberg.metadata.MetadataType;
-	import aRenberg.metadata.parseMetadataArgs;
+	import aRenberg.metadata.MetadataUtils;
 	
 	public function genericMetadataHandler(metadataXML:XML):IMetadata
 	{
-		var name:String = metadataXML.attribute('name');
-		var args:Object = parseMetadataArgs(metadataXML.arg);
+		var name:String = MetadataUtils.getName(metadataXML);
+		var args:Object = MetadataUtils.parseArgs(metadataXML);
 		
-		var parent:XML = metadataXML.parent() as XML;
-		var targetName:String = parent ? parent.attribute('name') : "";
-		var targetType:String = parent ? MetadataType.getTypeByName(parent.name()) : "";
+		var targetName:String = MetadataUtils.getTargetName(metadataXML);
+		var targetType:String = MetadataUtils.getTargetType(metadataXML);
 		
 		return new Metadata(name, args, targetName, targetType);
 	}

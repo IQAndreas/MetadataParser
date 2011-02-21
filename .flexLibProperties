@@ -2,6 +2,7 @@
 <flexLibProperties includeAllClasses="true" version="3">
   <includeClasses>
     <classEntry path="aRenberg.metadata.MetadataType"/>
+    <classEntry path="aRenberg.metadata.MetadataUtils"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>
