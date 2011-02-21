@@ -7,5 +7,7 @@ package aRenberg.metadata
 		
 		function get name():String;
 		function get args():Object;
+		
+		function getArg(propertyName:String, defaultValue:* = null):*;
 	}
 }

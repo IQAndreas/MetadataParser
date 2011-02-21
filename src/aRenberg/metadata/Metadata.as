@@ -29,6 +29,13 @@ package aRenberg.metadata
 		{ return _args; }
 		
 		
+		//Sadly, it's untyped. Doesn't allow for any conversion at the moment.
+		public function getArg(propertyName:String, defaultValue:* = null):*
+		{
+			return (args.hasOwnProperty(propertyName) ? args[propertyName] : defaultValue);
+		}
+		
+		
 		public function toString():String
 		{
 			//Is this really the best way to output the argument values?
