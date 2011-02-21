@@ -35,6 +35,25 @@ package aRenberg.metadata
 			return (args.hasOwnProperty(propertyName) ? args[propertyName] : defaultValue);
 		}
 		
+		public function getArgNumeric(propertyName:String, defaultValue:Number = NaN):Number
+		{
+			if (args.hasOwnProperty(propertyName))
+			{
+				var value:Number = args[propertyName]; 
+				if (isNaN(value))
+				{
+					return defaultValue;
+				}
+				else
+				{
+					return value;
+				}
+			}
+			
+			//else 
+			return defaultValue; 
+		}
+		
 		
 		public function toString():String
 		{

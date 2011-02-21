@@ -9,5 +9,7 @@ package aRenberg.metadata
 		function get args():Object;
 		
 		function getArg(propertyName:String, defaultValue:* = null):*;
+		function getArgNumeric(propertyName:String, defaultValue:Number = NaN):Number;
+		
 	}
 }
