@@ -8,6 +8,7 @@ package aRenberg.metadata
 	
 	public class MetadataParser
 	{
+		
 		public function MetadataParser(strict:Boolean = false)
 		{
 			types = {};
@@ -64,7 +65,26 @@ package aRenberg.metadata
 			return (types[name] as Function) || defaultHandler;
 		}
 		
-		public function parse(object:*, instanceMembers:Boolean = true, staticMembers:Boolean = false):Vector.<IMetadata>
+		public function parseClass(object:Class, includeStatic:Boolean = false):Vector.<IMetadata>
+		{
+			return this.parse(object, true, includeStatic);
+		}
+		
+		public function parseObject(object:*):Vector.<IMetadata>
+		{
+			if (object is Class)
+			{
+				//Ignore the properties of the instance it creates.
+				//Only parse out the metadata found in the actual static class properties.
+				return this.parse(object, false, true);
+			}
+			else
+			{
+				return this.parse(object, true, false);
+			}
+		}
+		
+		private function parse(object:*, instanceMembers:Boolean = true, staticMembers:Boolean = false):Vector.<IMetadata>
 		{
 			if (!object) { return null; }
 			
@@ -83,16 +103,8 @@ package aRenberg.metadata
 			return data;
 		}
 		
-		private function getMetadataList(object:*, instanceMembers:Boolean, staticMembers:Boolean):XMLList
+		private function getMetadataList(target:*, instanceMembers:Boolean, staticMembers:Boolean):XMLList
 		{
-			var target:* = object;
-			
-			if (staticMembers && !(object is Class))
-			{
-				//I sure hope they haven't overriden the 'constructor' property with something else. :(
-				target = object.constructor;
-			}
-			
 			if (instanceMembers && staticMembers)
 			{
 				return MetadataUtils.getMetadatas(getClass(target))
