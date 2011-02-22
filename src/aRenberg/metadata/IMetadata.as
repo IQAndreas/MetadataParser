@@ -11,5 +11,7 @@ package aRenberg.metadata
 		function getArg(propertyName:String, defaultValue:* = null):*;
 		function getArgNumeric(propertyName:String, defaultValue:Number = NaN):Number;
 		
+		//This may be uneccessary to require, but I think it's a good idea anyway
+		function toString():String;
 	}
 }
