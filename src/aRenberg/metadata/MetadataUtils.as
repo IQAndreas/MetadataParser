@@ -1,5 +1,8 @@
 package aRenberg.metadata
 {
+	import flash.utils.*;
+	import flash.utils.describeType;
+	
 	/**
 	 * MetadataUtils
 	 * 
@@ -12,11 +15,29 @@ package aRenberg.metadata
 	public class MetadataUtils
 	{
 		
-		public static function getMetadatas(object:*):XMLList
+		public static function getStaticMetadatas(target:Class):XMLList
 		{
-			import flash.utils.describeType;
-			
-			var description:XML = describeType(object);
+			var description:XML = describeType(target);
+			delete description.factory;
+			return description..metadata;
+		}
+		
+		public static function getInstanceMetadatas(target:*):XMLList
+		{
+			var description:XML = describeType(target);
+			if (target is Class)
+			{
+				return description.factory..metadata;
+			}
+			else
+			{
+				return description..metadata;
+			}
+		}
+		
+		public static function getMetadatas(target:*):XMLList
+		{
+			var description:XML = describeType(target);
 			return description..metadata;
 		}
 		

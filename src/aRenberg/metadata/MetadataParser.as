@@ -64,11 +64,11 @@ package aRenberg.metadata
 			return (types[name] as Function) || defaultHandler;
 		}
 		
-		public function parse(object:*):Vector.<IMetadata>
+		public function parse(object:*, instanceMembers:Boolean = true, staticMembers:Boolean = false):Vector.<IMetadata>
 		{
 			if (!object) { return null; }
 			
-			var metadataList:XMLList = MetadataUtils.getMetadatas(object);
+			var metadataList:XMLList = getMetadataList(object, instanceMembers, staticMembers);
 			var data:Vector.<IMetadata> = new Vector.<IMetadata>();
 			
 			for each (var meta:XML in metadataList)
@@ -81,6 +81,47 @@ package aRenberg.metadata
 			}
 			
 			return data;
+		}
+		
+		private function getMetadataList(object:*, instanceMembers:Boolean, staticMembers:Boolean):XMLList
+		{
+			var target:* = object;
+			
+			if (staticMembers && !(object is Class))
+			{
+				//I sure hope they haven't overriden the 'constructor' property with something else. :(
+				target = object.constructor;
+			}
+			
+			if (instanceMembers && staticMembers)
+			{
+				return MetadataUtils.getMetadatas(getClass(target))
+			}
+			else if (instanceMembers)
+			{
+				return MetadataUtils.getInstanceMetadatas(target);
+			}
+			else if (staticMembers)
+			{
+				return MetadataUtils.getStaticMetadatas(getClass(target));
+			}
+			
+			//else
+			return new XMLList();
+		}
+		
+		
+		//Helper function. Can be moved to a separate place.
+		private function getClass(target:*):Class
+		{
+			if (target is Class) { return target; }
+			
+			if (target.constructor is Class) { return target.constructor; }
+			
+			//Otherwise, put on the hard gloves! Ugh!
+			import flash.utils.getQualifiedClassName;
+			import flash.utils.getDefinitionByName;
+			return getDefinitionByName(getQualifiedClassName(target)) as Class;
 		}
 		
 		
