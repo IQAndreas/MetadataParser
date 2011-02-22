@@ -7,6 +7,7 @@ package aRenberg.metadata
 		public static const ACCESSOR:String = 	"accessor";
 		public static const METHOD:String = 	"method";
 		public static const VARIABLE:String = 	"variable";
+		public static const CONSTANT:String = 	"constant";
 		public static const CLASS:String = 		"class";
 		
 		public static const UNKNOWN:String = 	"unknown";
@@ -19,6 +20,7 @@ package aRenberg.metadata
 				case 'accessor': 	return MetadataType.ACCESSOR;
 				case 'method' : 	return MetadataType.METHOD;
 				case 'variable' : 	return MetadataType.VARIABLE;
+				case 'constant' :	return MetadataType.CONSTANT;
 					
 				case 'factory' : // Class passed in
 				case 'type' : // instance passed in
