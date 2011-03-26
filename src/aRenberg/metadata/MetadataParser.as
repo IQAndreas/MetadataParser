@@ -93,7 +93,7 @@ package aRenberg.metadata
 			
 			for each (var meta:XML in metadataList)
 			{
-				var name:String = MetadataUtils.getName(meta);
+				var name:String = MetadataUtils.getMetadataName(meta);
 				var handler:Function = this.getHandler(name);
 			
 				var instance:IMetadata = handler.call(null, meta);

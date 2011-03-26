@@ -4,6 +4,8 @@ package aRenberg.metadata
 	{
 		function get targetName():String;
 		function get targetType():String;
+		function get targetReadable():Boolean;
+		function get targetWriteable():Boolean;
 		
 		function get name():String;
 		function get args():Object;

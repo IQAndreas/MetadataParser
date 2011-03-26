@@ -2,10 +2,13 @@ package aRenberg.metadata
 {
 	public class Metadata implements IMetadata
 	{
-		public function Metadata(name:String, args:Object, targetName:String, targetType:String):void
+		public function Metadata(name:String, args:Object, targetName:String, targetType:String, targetReadable:Boolean = true, targetWriteable:Boolean = true):void
 		{
 			_targetName = targetName;
 			_targetType = targetType;
+			
+			_targetReadable = targetReadable;
+			_targetWriteable = targetWriteable;
 			
 			_name = name;
 			_args = args;
@@ -18,6 +21,14 @@ package aRenberg.metadata
 		private var _targetType:String;
 		public function get targetType():String
 		{ return _targetType; }
+		
+		private var _targetReadable:Boolean;
+		public function get targetReadable():Boolean
+		{ return _targetReadable; }
+		
+		private var _targetWriteable:Boolean;
+		public function get targetWriteable():Boolean
+		{ return _targetWriteable; }
 		
 		
 		private var _name:String;

@@ -1,6 +1,5 @@
 package aRenberg.metadata
 {
-	import flash.utils.*;
 	import flash.utils.describeType;
 	
 	/**
@@ -44,17 +43,20 @@ package aRenberg.metadata
 		
 		public static function parse(metadataXML:XML):Metadata
 		{
-			var name:String = MetadataUtils.getName(metadataXML);
+			var name:String = MetadataUtils.getMetadataName(metadataXML);
 			var args:Object = MetadataUtils.parseArgs(metadataXML);
 			
 			var targetName:String = MetadataUtils.getTargetName(metadataXML);
 			var targetType:String = MetadataUtils.getTargetType(metadataXML);
 			
-			return new Metadata(name, args, targetName, targetType);
+			var targetReadable:Boolean =  MetadataUtils.hasReadAccess(metadataXML);
+			var targetWriteable:Boolean = MetadataUtils.hasWriteAccess(metadataXML);
+			
+			return new Metadata(name, args, targetName, targetType, targetReadable, targetWriteable);
 		}
 		
 		
-		public static function getName(metadataXML:XML):String
+		public static function getMetadataName(metadataXML:XML):String
 		{
 			return metadataXML.attribute('name');
 		}
@@ -75,22 +77,74 @@ package aRenberg.metadata
 			return args;
 		}
 		
+		
 		public static function getTargetName(metadataXML:XML):String
 		{
-			var parent:XML = metadataXML.parent() as XML;
-			if (parent.name() == 'factory') 
-				{ parent = parent.parent(); }
-			
-			return (parent ? parent.attribute('name') : "");
+			var target:XML = getTarget(metadataXML);
+			return getName(target);
 		}
 		
 		public static function getTargetType(metadataXML:XML):String
 		{
+			var target:XML = getTarget(metadataXML);
+			return getType(target);
+		}
+		
+		
+		
+		private static function getTarget(metadataXML:XML):XML
+		{
 			var parent:XML = metadataXML.parent() as XML;
 			if (parent.name() == 'factory') 
 				{ parent = parent.parent(); }
 			
-			return (parent ? MetadataType.getTypeByName(parent.name()) : "");
+			return parent;
+		}
+		
+		private static function getName(target:XML):String
+		{
+			return (target ? target.attribute('name') : "");
+		}
+		
+		private static function getType(target:XML):String
+		{
+			return (target ? MetadataType.getTypeByName(target.name()) : "");
+		}
+
+		
+		
+		// I sure hope this function will never return 'null' (for unknown) :(
+		public static function hasReadAccess(metadataXML:XML):Boolean
+		{
+			var target:XML = getTarget(metadataXML);
+			var type:String = getType(target);
+			
+			//Special case!
+			if (type == MetadataType.ACCESSOR)
+			{
+				var access:String = target.attribute('access');
+				return Boolean((access == 'readwrite') || (access == 'readonly'));
+			}
+			
+			//else
+			return MetadataType.hasReadAccess(type);
+		}
+		
+		// I sure hope this function will never return 'null' (for unknown) :(
+		public static function hasWriteAccess(metadataXML:XML):Boolean
+		{
+			var target:XML = getTarget(metadataXML);
+			var type:String = getType(target);
+			
+			//Special case!
+			if (type == MetadataType.ACCESSOR)
+			{
+				var access:String = target.attribute('access');
+				return Boolean((access == 'readwrite') || (access == 'writeonly'));
+			}
+			
+			//else
+			return MetadataType.hasWriteAccess(type);
 		}
 		
 		
