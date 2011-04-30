@@ -1,6 +1,6 @@
-package aRenberg.metadata.handlers
+package aRenberg.metadataparser.handlers
 {
-	import aRenberg.metadata.IMetadata;
+	import aRenberg.description.metadata.IMetadata;
 
 	public function ignoreMetadataHandler(metadataXML:XML):IMetadata
 	{

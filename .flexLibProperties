@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <flexLibProperties includeAllClasses="true" version="3">
   <includeClasses>
-    <classEntry path="aRenberg.metadata.MetadataType"/>
-    <classEntry path="aRenberg.metadata.MetadataUtils"/>
+    <classEntry path="aRenberg.description.common.metadata.MetadataUtils"/>
+    <classEntry path="aRenberg.metadataparser.MetadataExtractor"/>
+    <classEntry path="aRenberg.description.common.DescriptorType"/>
+    <classEntry path="aRenberg.description.common.AccessType"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>

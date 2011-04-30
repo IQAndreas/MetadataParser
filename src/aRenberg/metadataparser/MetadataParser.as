@@ -1,18 +1,20 @@
-package aRenberg.metadata
+package aRenberg.metadataparser
 {
-	import aRenberg.metadata.Metadata;
-	import aRenberg.metadata.handlers.genericMetadataHandler;
-	import aRenberg.metadata.handlers.ignoreMetadataHandler;
-	
 	import flash.utils.describeType;
+	
+	import aRenberg.description.metadata.Metadata;
+	import aRenberg.description.metadata.IMetadata;
+	import aRenberg.description.metadata.MetadataUtils;
+	
+	import aRenberg.metadataparser.handlers.genericMetadataHandler;
+	import aRenberg.metadataparser.handlers.ignoreMetadataHandler;
+	
 	
 	public class MetadataParser
 	{
 		
 		public function MetadataParser(strict:Boolean = false)
 		{
-			types = {};
-			
 			if (strict)
 			{
 				this.setDefaultHandler(ignoreMetadataHandler);
@@ -23,8 +25,10 @@ package aRenberg.metadata
 			}
 		}
 		
+		
 		private var defaultHandler:Function;
-		private var types:Object;
+		private var types:Object = {};
+		
 		public function registerHandler(name:String, handler:Function):void
 		{
 			if (handler != null)
@@ -88,7 +92,7 @@ package aRenberg.metadata
 		{
 			if (!object) { return null; }
 			
-			var metadataList:XMLList = getMetadataList(object, instanceMembers, staticMembers);
+			var metadataList:XMLList = MetadataExtractor.getMetadataList(object, instanceMembers, staticMembers);
 			var data:Vector.<IMetadata> = new Vector.<IMetadata>();
 			
 			for each (var meta:XML in metadataList)
@@ -101,39 +105,6 @@ package aRenberg.metadata
 			}
 			
 			return data;
-		}
-		
-		private function getMetadataList(target:*, instanceMembers:Boolean, staticMembers:Boolean):XMLList
-		{
-			if (instanceMembers && staticMembers)
-			{
-				return MetadataUtils.getMetadatas(getClass(target))
-			}
-			else if (instanceMembers)
-			{
-				return MetadataUtils.getInstanceMetadatas(target);
-			}
-			else if (staticMembers)
-			{
-				return MetadataUtils.getStaticMetadatas(getClass(target));
-			}
-			
-			//else
-			return new XMLList();
-		}
-		
-		
-		//Helper function. Can be moved to a separate place.
-		private function getClass(target:*):Class
-		{
-			if (target is Class) { return target; }
-			
-			if (target.constructor is Class) { return target.constructor; }
-			
-			//Otherwise, put on the hard gloves! Ugh!
-			import flash.utils.getQualifiedClassName;
-			import flash.utils.getDefinitionByName;
-			return getDefinitionByName(getQualifiedClassName(target)) as Class;
 		}
 		
 		
